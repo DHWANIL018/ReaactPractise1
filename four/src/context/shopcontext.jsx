@@ -3,7 +3,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 
 export const ShopContext = createContext()
-
+  
 const ShopContextProvider = ({children}) => {
     const [count, setCount] = useState(0)
     // console.log(props)
