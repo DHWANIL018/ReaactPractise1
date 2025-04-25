@@ -6,12 +6,31 @@ import { useState } from 'react'
 import { data } from 'react-router-dom'
 const Home = () => {
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit,reset } = useForm()
     const [user, SetUser] = useState([])
-    function submit(data) {
-        console.log(data)
+    const [edit,setEdit] = useState(null)
+    
 
-        SetUser([...user, data])
+    
+
+    function submit(data) {
+        // console.log(data)
+
+        if(edit!== null){
+        //   console.log(user[edit])
+        // let updateUser = [...user]
+        // updateUser[edit] = data
+        // SetUser(updateUser)
+
+        let updateuser = [...user] // USER
+        updateuser[edit] =data
+        SetUser(updateuser)
+        setEdit(null)
+        reset()
+        }else{
+                SetUser([...user, data])
+        }
+
 
         // console.log(user)
     }
@@ -33,6 +52,23 @@ const Home = () => {
         }
     }, [])
 
+    function trash(data){
+        
+        const filterUser = user.filter((ele,index)=>{
+            console.log(ele,index)
+            return data != index
+        })
+        console.log(filterUser)
+        SetUser(filterUser)
+    }
+
+    function update(index){
+        console.log(index)
+        console.log(user[index])
+        reset(user[index])
+        setEdit(index)
+    }
+
     // useEffect(()=>{
     //     let users = localStorage.getItem('user')
     //     let parseUser = JSON.parse(users)
@@ -52,7 +88,11 @@ const Home = () => {
                     <input className=' form-control' {...register('email')} placeholder='Enter Your Email' type="text" />
                 </div>
 
-                <button className=' btn btn-success'>Submit</button>
+                {/* <button className=' btn btn-success'>Submit</button> */}
+                {
+                    edit!==null ?<button className=' btn btn-primary'>Edit</button>
+                    : <button className=' btn btn-success'>Submit</button>
+                }
 
             </form>
             <div className=' container'>
@@ -62,6 +102,8 @@ const Home = () => {
                             <th scope="col">index</th>
                             <th scope="col">UserName</th>
                             <th scope="col">Email</th>
+                            <th scope="col">Delete</th>
+                            <th scope="col">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +116,8 @@ const Home = () => {
                                         <td>{index+1}</td>
                                         <td>{ele?.username}</td>
                                         <td>{ele?.email}</td>
+                                        <td><button className=' btn btn-danger' onClick={()=>trash(index)}>Delete</button></td>
+                                        <td><button className='btn btn-primary' onClick={()=>update(index)}>Edit</button></td>
                                     </tr>
                                 )
                             })
