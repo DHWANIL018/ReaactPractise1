@@ -17,11 +17,6 @@ const Home = () => {
         // console.log(data)
 
         if(edit!== null){
-        //   console.log(user[edit])
-        // let updateUser = [...user]
-        // updateUser[edit] = data
-        // SetUser(updateUser)
-
         let updateuser = [...user] // USER
         updateuser[edit] =data
         SetUser(updateuser)
